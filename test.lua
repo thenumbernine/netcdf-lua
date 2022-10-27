@@ -6,6 +6,7 @@ local table = require 'ext.table'
 local fn = assert(..., "expected filename")
 local netcdf = NetCDF{filename=fn}
 
+-- [[
 print'dims:'
 for _,dim in ipairs(netcdf.dims) do
 	print('', dim)
@@ -18,6 +19,7 @@ for _,var in ipairs(netcdf.vars) do
 		print('', '', attr)
 	end
 end
+--]]
 
 -- gather cols beforehand, find the max, format accordingly.  extra +1 for indexes
 local cols = range(#netcdf.vars+1):mapi(function() return table() end)
@@ -41,6 +43,3 @@ for i=1,#cols[1] do
 	end
 	print()
 end
-
-print'done'
-
