@@ -1,5 +1,5 @@
 local ffi = require 'ffi'
-local nc = require 'ffi.netcdf'
+local nc = require 'ffi.req' 'netcdf'
 local ncsafecall = require 'netcdf.safecall'
 
 local function typename(ncid, nctype)

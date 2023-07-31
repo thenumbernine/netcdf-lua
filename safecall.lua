@@ -1,5 +1,5 @@
 local ffi = require 'ffi'
-local nc = require 'ffi.netcdf'
+local nc = require 'ffi.req' 'netcdf'
 
 -- assumes the return value is zero on success, nonzero on error
 local function safecall(f, ...)
