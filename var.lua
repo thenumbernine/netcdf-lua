@@ -5,7 +5,8 @@ local table = require 'ext.table'
 local ncsafecall = require 'netcdf.safecall'
 local nctypename = require 'netcdf.typename'
 local ctypeForNCType = require 'netcdf.ctypefornctype'
-local asserttype = require 'netcdf.asserttype'
+local asserttype = require 'ext.assert'.type
+local asserteq = require 'ext.assert'.eq
 local Attr = require 'netcdf.attr'
 
 
@@ -83,7 +84,7 @@ end
 
 -- get a single element in the array
 function Var:get(...)
-	assert(select('#', ...) == #self.nc.dims)
+	asserteq(select('#', ...), #self.nc.dims)
 	local start = ffi.new('size_t[?]', #self.nc.dims)
 	local count = ffi.new('size_t[?]', #self.nc.dims)
 	for i=0,#self.nc.dims-1 do
