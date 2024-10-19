@@ -4,7 +4,7 @@ local nc = require 'ffi.req' 'netcdf'
 local range = require 'ext.range'
 local table = require 'ext.table'
 local tolua = require 'ext.tolua'
-local asserttype = require 'ext.assert'.type
+local assert = require 'ext.assert'
 local ncsafecall = require 'netcdf.safecall'
 local nctypename = require 'netcdf.typename'
 local ctypeForNCType = require 'netcdf.ctypefornctype'
@@ -17,8 +17,8 @@ function Attr:init(args)
 	for k,v in pairs(args) do
 		self[k] = v
 	end
-	self.var = asserttype(args.var, 'table')
-	self.num = asserttype(args.num, 'number')
+	self.var = assert.type(args.var, 'table')
+	self.num = assert.type(args.num, 'number')
 
 
 	local name = ffi.new('char[?]', nc.NC_MAX_NAME+1)

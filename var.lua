@@ -5,8 +5,7 @@ local table = require 'ext.table'
 local ncsafecall = require 'netcdf.safecall'
 local nctypename = require 'netcdf.typename'
 local ctypeForNCType = require 'netcdf.ctypefornctype'
-local asserttype = require 'ext.assert'.type
-local asserteq = require 'ext.assert'.eq
+local assert = require 'ext.assert'
 local Attr = require 'netcdf.attr'
 
 
@@ -14,8 +13,8 @@ local Var = class()
 
 function Var:init(args)
 	assert(args)
-	self.id = asserttype(args.id, 'number')
-	self.nc = asserttype(args.nc, 'table')	-- parent
+	self.id = assert.type(args.id, 'number')
+	self.nc = assert.type(args.nc, 'table')	-- parent
 
 
 	local name = ffi.new('char[?]', nc.NC_MAX_NAME+1)
@@ -84,11 +83,11 @@ end
 
 -- get a single element in the array
 function Var:get(...)
-	asserteq(select('#', ...), #self.nc.dims)
+	assert.eq(select('#', ...), #self.nc.dims)
 	local start = ffi.new('size_t[?]', #self.nc.dims)
 	local count = ffi.new('size_t[?]', #self.nc.dims)
 	for i=0,#self.nc.dims-1 do
-		start[i] = asserttype(select(i+1, ...), 'number')
+		start[i] = assert.type(select(i+1, ...), 'number')
 		count[i] = 1
 	end
 	
