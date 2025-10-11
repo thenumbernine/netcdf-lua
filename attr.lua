@@ -10,6 +10,12 @@ local nctypename = require 'netcdf.typename'
 local ctypeForNCType = require 'netcdf.ctypefornctype'
 
 
+local char_p_1 = ffi.typeof'char*[1]'
+local char_arr = ffi.typeof'char[?]'
+local size_t_1 = ffi.typeof'size_t[1]'
+local nc_type_1 = ffi.typeof'nc_type[1]'
+
+
 local Attr = class()
 
 function Attr:init(args)
@@ -21,13 +27,13 @@ function Attr:init(args)
 	self.num = assert.type(args.num, 'number')
 
 
-	local name = ffi.new('char[?]', nc.NC_MAX_NAME+1)
+	local name = char_arr(nc.NC_MAX_NAME+1)
 	name[ffi.sizeof(name)-1] = 0
 	ncsafecall('nc_inq_attname', self.var.nc.id, self.var.id, self.num, name)
 	self.name = ffi.string(name)
 
-	local xtype = ffi.new('nc_type[1]', 0)
-	local len = ffi.new('size_t[1]', 0)
+	local xtype = nc_type_1(0)
+	local len = size_t_1(0)
 	-- inq_att queries attribute by-name ...
 	ncsafecall('nc_inq_att', self.var.nc.id, self.var.id, self.name, xtype, len)
 	self.type = xtype[0]
@@ -36,14 +42,15 @@ function Attr:init(args)
 	if self.type == nc.NC_STRING then
 		self.value = "<idk how to read strings>"
 		-- TODO is this nc_get_att_string ?
-		local values = ffi.new('char *[1]')	-- how many strings?  self.len?  this file doesn't have string attributes (only char[] attributes ...)
+		local values = char_p_1()	-- how many strings?  self.len?  this file doesn't have string attributes (only char[] attributes ...)
 		ncsafecall('nc_get_att_string', self.var.nc.id, self.var.id, self.name, values)
 		local result = ffi.string(values[0])
 		nc.nc_free_string(1, values)
 		self.value = result
 	else
 		local ctype = ctypeForNCType[self.type]
-		local value = ffi.new(ctype..'[?]', self.len)
+		local ctypeArr = ffi.typeof('$[?]', ctype)
+		local value = ctypeArr(self.len)
 		ncsafecall('nc_get_att', self.var.nc.id, self.var.id, self.name, value)
 		-- len of strings, i.e. char[]'s, is just #value
 		-- len otherwise? is the value array length

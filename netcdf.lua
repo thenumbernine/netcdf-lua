@@ -6,6 +6,8 @@ local ncsafecall = require 'netcdf.safecall'
 local Var = require 'netcdf.var'
 local Dim = require 'netcdf.dim'
 
+local int_1 = ffi.typeof'int[1]'
+local int_arr = ffi.typeof'int[?]'
 
 ffi.cdef[[
 typedef struct netcdf_file_ncid_t {
@@ -30,14 +32,14 @@ function NetCDF:init(args)
 	args = args or {}
 	if args.filename then
 
-		self.idptr = ffi.new'netcdf_file_ncid_t'
+		self.idptr = netcdf_file_ncid_t()
 		ncsafecall('nc_open', args.filename, nc.NC_NOWRITE, self.idptr.id)
 		self.id = self.idptr.id[0]
 --print('ncid', self.id)
 
-		local ndims = ffi.new('int[1]', 0)
-		local nvars = ffi.new('int[1]', 0)
-		local unlimdimid = ffi.new('int[1]', 0)
+		local ndims = int_1(0)
+		local nvars = int_1(0)
+		local unlimdimid = int_1(0)
 		ncsafecall('nc_inq', self.id, ndims, nvars, ngatts, unlimdimid)
 		
 		local ndims = ndims[0]
@@ -68,8 +70,8 @@ function NetCDF:init(args)
 
 --print('vars:')
 		self.vars = table()	-- 1-based ...
-		local nvars2 = ffi.new('int[1]', 0)
-		local varids = ffi.new('int[?]', nvars)
+		local nvars2 = int_1(0)
+		local varids = int_arr(nvars)
 		ncsafecall('nc_inq_varids', self.id, nvars2, varids)
 		assert(nvars2[0] == nvars)	-- right?
 		for i=0,nvars-1 do
