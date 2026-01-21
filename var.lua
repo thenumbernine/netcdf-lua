@@ -92,7 +92,7 @@ end
 function Var:get(...)
 	assert.eq(select('#', ...), #self.nc.dims)
 	local start = size_t_arr(#self.nc.dims)
-	local count = size_t-arr(#self.nc.dims)
+	local count = size_t_arr(#self.nc.dims)
 	for i=0,#self.nc.dims-1 do
 		start[i] = assert.type(select(i+1, ...), 'number')
 		count[i] = 1
