@@ -30,7 +30,7 @@ function Var:init(args)
 	self.name = ffi.string(name)
 	
 	-- conversely, nc_inq_varid gets the id for the name
-	local xtype = nc_type-1(0)
+	local xtype = nc_type_1(0)
 	ncsafecall('nc_inq_vartype', self.nc.id, self.id, xtype)
 	self.type = xtype[0]
 
