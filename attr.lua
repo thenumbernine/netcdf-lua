@@ -1,6 +1,6 @@
 local ffi = require 'ffi'
 local class = require 'ext.class'
-local nc = require 'ffi.req' 'netcdf'
+local nc = require 'netcdf.lib'
 local range = require 'ext.range'
 local table = require 'ext.table'
 local tolua = require 'ext.tolua'
@@ -70,7 +70,7 @@ function Attr:init(args)
 			--]]
 			-- [[ nah it's not that, it's the size_t/uint64_t that luajit for loops choke on
 			local values = table()
-			local i = 0ull
+			local i = 0ULL
 			while i < self.len do
 				values:insert(string.char(value[i]))
 				i = i + 1
@@ -90,7 +90,7 @@ function Attr:init(args)
 				--]]
 				-- [[
 				local ltvalues = table()
-				local i = 0ull
+				local i = 0ULL
 				while i < self.len do
 					ltvalues:insert(value[i])
 					i = i + 1

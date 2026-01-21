@@ -1,5 +1,5 @@
 local ffi = require 'ffi'
-local nc = require 'ffi.req' 'netcdf'
+local nc = require 'netcdf.lib'
 local class = require 'ext.class'
 local assert = require 'ext.assert'
 local ncsafecall = require 'netcdf.safecall'

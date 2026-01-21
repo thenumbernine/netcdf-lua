@@ -1,0 +1,41 @@
+--------------------------------------------
+-- generated with dist/build-distinfo.rua --
+--------------------------------------------
+
+name = "netcdf"
+files = {
+	["README.md"] = "netcdf/README.md",
+	["attr.lua"] = "netcdf/attr.lua",
+	["ctypefornctype.lua"] = "netcdf/ctypefornctype.lua",
+	["dim.lua"] = "netcdf/dim.lua",
+	["netcdf.lua"] = "netcdf/netcdf.lua",
+	["safecall.lua"] = "netcdf/safecall.lua",
+	["test.lua"] = "netcdf/test.lua",
+	["typename.lua"] = "netcdf/typename.lua",
+	["var.lua"] = "netcdf/var.lua",
+}
+deps = {
+	"ext",
+	"ffi",
+}
+
+generateBindings = {
+	-- apt install libnetcdf-dev
+	{
+		inc = '<netcdf.h>',
+		out = 'netcdf.lua',	-- TODO output to ./lib.lua
+		pkgconfig = 'netcdf',
+		final = function(code)
+			local removeEnum = require 'include.util'.removeEnum
+			code = removeEnum(code, string.patescape"NC_MAX_DOUBLE = 1.7976931348623157e+308")
+			code = code .. [[
+local wrapper = setmetatable({}, {__index = require 'ffi.load' 'netcdf'})
+wrapper.NC_MAX_DOUBLE = 1.7976931348623157e+308
+wrapper.NC_MAX_INT64 = 9.2233720368548e+18
+wrapper.NC_MIN_INT64 = -9.2233720368548e+18
+return wrapper
+]]
+			return code
+		end,
+	},
+}
