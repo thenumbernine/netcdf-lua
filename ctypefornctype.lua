@@ -1,5 +1,5 @@
 local ffi = require 'ffi'
-local nc = require 'netcdf.lib'
+local nc = require 'netcdf.ffi.netcdf'
 
 local ctypeForNCType = {
 	[nc.NC_BYTE] = ffi.typeof'int8_t',

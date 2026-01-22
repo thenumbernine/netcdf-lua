@@ -1,5 +1,5 @@
 local ffi = require 'ffi'
-local nc = require 'netcdf.lib'
+local nc = require 'netcdf.ffi.netcdf'
 local ncsafecall = require 'netcdf.safecall'
 
 local char_arr = ffi.typeof'char[?]'
