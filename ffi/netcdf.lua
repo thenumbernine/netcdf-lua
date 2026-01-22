@@ -44,7 +44,7 @@ typedef int nclong;
 ]]
 
 return require 'ffi.libwrapper'{
-	lib = 'netcdf',
+	lib = require 'ffi.load' 'netcdf',
 	-- initialization
 	init = {
 		-- enums
