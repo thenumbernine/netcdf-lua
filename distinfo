@@ -19,7 +19,7 @@ deps = {
 	"ffi",
 }
 
-generateBindings = {
+generateBindings = function()return{
 	-- apt install libnetcdf-dev
 	{
 		inc = '<netcdf.h>',
@@ -38,4 +38,4 @@ return wrapper
 			return code
 		end,
 	},
-}
+}end
