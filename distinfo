@@ -4,15 +4,17 @@
 
 name = "netcdf"
 files = {
-	["README.md"] = "netcdf/README.md",
-	["attr.lua"] = "netcdf/attr.lua",
-	["ctypefornctype.lua"] = "netcdf/ctypefornctype.lua",
-	["dim.lua"] = "netcdf/dim.lua",
-	["netcdf.lua"] = "netcdf/netcdf.lua",
-	["safecall.lua"] = "netcdf/safecall.lua",
-	["test.lua"] = "netcdf/test.lua",
-	["typename.lua"] = "netcdf/typename.lua",
-	["var.lua"] = "netcdf/var.lua",
+	"README.md",
+	"attr.lua",
+	"ctypefornctype.lua",
+	"dim.lua",
+	"distinfo",
+	"ffi/netcdf.lua",
+	"netcdf.lua",
+	"safecall.lua",
+	"test.lua",
+	"typename.lua",
+	"var.lua",
 }
 deps = {
 	"ext",
